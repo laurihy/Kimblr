@@ -1,0 +1,98 @@
+body {
+	font-size: 12pt;
+	font-family: Verdana;
+	background: #f7f7f7;
+}
+
+div#startview {
+	width: 600px;
+	margin: 0 auto;
+}
+h1 {
+	text-align: center;
+	font-size: 6em;
+	margin: 40px 0;
+	color: #444;
+	text-shadow: 0 2px 0px #fff;
+	font-weight: bold;
+}
+
+h1 span {
+	position: relative;
+	margin: 0 -3px;	
+}
+
+h2 {
+	font-size: 1.4em;
+	padding: 10px;
+	margin: 20px 0;
+	border-top: 2px solid #444;
+	text-shadow: 0 2px 0px #fff;
+	cursor: pointer;
+}
+
+a.startplaying {
+	padding: 30px;
+	text-align: center;
+	background: #bfb;
+	border: 1px solid #686;
+	border-radius: 10px;
+	display: block;
+	cursor: pointer;
+}
+
+a.startplaying:hover {
+	background: #dfd;
+}
+
+a.addnewplayer {
+	padding: 10px;
+	font-size: 1em;
+	color: #aaa;
+	cursor: pointer;	
+}
+
+td {
+	padding: 10px 10px;
+	font-size: 1.5em;
+}
+
+div#players input, input#boardlen {
+	padding: 6px;
+	font-size: 1em;
+	border: 1px solid #888;
+	border-radius: 5px;
+	width: 90%;
+	color: #555;
+}
+
+td.playercount {
+	width: 30px;
+	color: #aaa;	
+}
+
+td.autoplay a {
+	cursor: pointer;
+	padding: 10px;
+	border-radius: 5px;
+}
+
+td.autoplay .off {
+	background: #fee;
+	border: 1px solid #faa;
+	color: #aaa;
+}
+
+td.autoplay .on {
+	background: #efe;
+	border: 1px solid #afa;
+	color: #555
+}
+
+tr.addnewplayer input {
+	background: #eee;
+}
+
+input#boardlen {
+	width:30%;
+}

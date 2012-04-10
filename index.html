@@ -1,0 +1,177 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1"/>
+<title></title>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="stylesheet" type="text/css" href="css/reset.css"/>
+<link rel="stylesheet" type="text/css" href="css/grid.css"/>
+<link rel="stylesheet" type="text/css" href="css/main.css"/>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/raphael.js"></script>
+<script type="text/javascript" src="js/kimble.js"></script>
+<script type="text/javascript">
+
+$(document).ready(function() {
+	
+	
+	//startKimble(allTeams, len);
+	
+	$('a.autoplay').live('click',function(){
+		$(this).toggleClass('off');
+		$(this).toggleClass('on');	
+	});
+	
+	
+	$('a.startplaying').live('click', function(){
+		teams = $('div#players').find('tr');
+		jsonstr = '[';
+		$(teams).each(function(){
+			apl = $(this).find('.autoplay');
+			if($(apl).hasClass('off')){
+				autoplay = false
+			}
+			else {
+				autoplay = true;
+			}
+			color = $(this).find('.colorinput').val();
+			name = $(this).find('.nameinput').val();
+			pawncount = $(this).find('.countinput').val();
+			if(color!='' && name!='' && pawncount!=''){
+				jsonstr += '{';
+				jsonstr += '"name":"'+name+'",';
+				jsonstr += '"color":"'+color+'",';
+				jsonstr += '"pawnCount":'+pawncount+',';
+				jsonstr += '"autoPlay":'+autoplay;
+				jsonstr += '},';
+			}
+		});
+		jsonstr = jsonstr.substring(0, jsonstr.length-1);
+		jsonstr +=']';
+		allTeams = JSON.parse(jsonstr);
+		len = $('input#boardlen').val();		
+		startKimble(allTeams, len);
+		$('div#startview').slideToggle();
+		$('div#kimble').slideToggle();
+		
+		
+	});
+	
+	$('a.addnewplayer').click(function(){
+		newtr = $('<tr></tr>');
+		colorcol = $('<td class="color"><input class="colorinput" type="text" value="" /></td>');
+		namecol = $('<td class="playername"><input class="nameinput" type="text" value=""/></td>');
+		pccol = $('<td class="pawncount"><input class="countinput" type="text" value="" /></td>')
+		aicol = $('<td class="autoplay"><a class="autoplay off">AI</a></td>');
+		
+		$(newtr).append(colorcol);
+		$(newtr).append(namecol);
+		$(newtr).append(pccol);
+		$(newtr).append(aicol);
+		$('div#players table').append(newtr);
+	});
+	
+	$('.hidden').css('display', 'none');
+	
+	$('.show').live('click', function(){
+		$(this).next('.hidden').toggle();
+	});
+	
+	title = $('h1#title').text();
+	$('h1#title').text('');
+	n = 10;
+	(function(){
+		k = $('<span></span>').text(title[0]);
+		$(k).css('top', '0px');
+		$('h1#title').append(k);
+		
+		i = $('<span></span>').text(title[1]);
+		$(i).css('top', '10px');
+		$('h1#title').append(i);
+		
+		m = $('<span></span>').text(title[2]);
+		$(m).css('top', '20px');
+		$('h1#title').append(m);
+		
+		b = $('<span></span>').text(title[3]);
+		$(b).css('top', '30px');
+		$('h1#title').append(b);
+		
+		l = $('<span></span>').text(title[4]);
+		$(l).css('top', '20px');
+		$('h1#title').append(l);
+		
+		r = $('<span></span>').text(title[5]);
+		$(r).css('top', '10px');
+		$('h1#title').append(r);
+		
+	})();
+	
+});
+
+</script>
+</head>
+<body>
+
+<div id="wrapper" style="width:1030px; margin: 0 auto;">
+
+	<div id="startview">
+	
+		<h1 id="title">kimblr</h1>
+		
+		<a class="startplaying">Start playing!</a>
+
+		
+		<h2>Players</h2>
+		
+		<div id="players">
+		<table>
+			<tr>
+				<td class="color"><input class="colorinput" type="text" value="#ff0000" /></td>
+				<td class="playername"><input class="nameinput" type="text" value="Red"/></td>
+				<td class="pawncount"><input class="countinput" type="text" value="4" /></td>
+				<td class="autoplay"><a class="autoplay off">AI</a></td>
+			</tr>
+			<tr>
+				<td class="color"><input class="colorinput"  type="text" value="#00ff00"/></td>
+				<td class="playername"><input class="nameinput" type="text" value="Green"/></td>
+				<td class="pawncount"><input class="countinput" type="text" value="4" /></td>
+				<td class="autoplay"><a class="autoplay off">AI</a></td>
+			</tr>
+			<tr>
+				<td class="color"><input class="colorinput" type="text" value="#0000ff" /></td>
+				<td class="playername"><input class="nameinput" type="text" value="Blue"/></td>
+				<td class="pawncount"><input class="countinput" type="text" value="4" /></td>
+				<td class="autoplay"><a class="autoplay off">AI</a></td>
+			</tr>
+			<tr>
+				<td class="color"><input class="colorinput"  type="text" value="#ffff00"/></td>
+				<td class="playername"><input class="nameinput" type="text" value="Yellow"/></td>
+				<td class="pawncount"><input class="countinput" type="text" value="4" /></td>
+				<td class="autoplay"><a class="autoplay off">AI</a></td>
+			</tr>
+		</table>
+		<a class="addnewplayer">Add new player</a>
+		</div>
+		
+		<h2 class="show">Advanced</h2>
+		<div id="advanced" class="hidden">
+		<table>
+			<tr>
+				<td>Board length:</td><td><input type="text" id="boardlen" value="28" /></td>
+			</tr>
+		</table>
+		</div>
+		
+		<a class="startplaying">Start playing!</a>
+	</div>
+
+	<div id="kimble" style="float: left; display: none;">
+		<div id="holder"  style="float: left;"></div>
+		<div id="penalties" style="float: left;"></div>
+	</div>
+	
+</div>
+	
+</body>
+</html>
